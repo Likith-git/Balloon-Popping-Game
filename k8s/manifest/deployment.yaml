@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ballonapp
+  labels:
+    app: ballonapp
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: ballonapp
+  template:
+    metadata:
+      labels:
+        app: ballonapp
+    spec:
+      containers:
+      - name: ballonapp
+        image: your-docker-image:latest  # Replace with your actual Docker image
+        ports:
+        - containerPort: 80
+        volumeMounts:
+        - name: web-content
+          mountPath: /usr/share/nginx/html  # For Nginx, adjust if using a different server
+      volumes:
+      - name: web-content
+        configMap:
+          name: my-web-app-config  # Reference to ConfigMap for static files
